@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Encuentro 2 — Patrones y Figuras · Finanzas Razonables</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f7f5f0; --surface:#fff; --border:#e8e4dc;
+  --text:#1a1a1a; --muted:#6b6860;
+  --red:#c0392b; --red-l:#fdf0ef;
+  --dark:#2c3e50;
+  --green:#27ae60; --green-l:#eafaf1;
+  --blue:#2980b9; --blue-l:#eaf4fb;
+  --yellow:#f39c12; --yellow-l:#fef9e7;
+  --purple:#8e44ad; --purple-l:#f5eef8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.7;}
+
+/* HEADER */
+.hdr{background:var(--dark);position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(0,0,0,.2);}
+.hdr-in{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.hdr-brand{font-family:'Lora',serif;font-size:13px;color:#9aaab8;}
+.hdr-ttl{font-size:12px;color:#fff;display:none;}
+@media(min-width:480px){.hdr-ttl{display:block;}}
+.prog-wrap{height:3px;background:rgba(255,255,255,.15);}
+.prog-bar{height:3px;background:var(--red);width:0;transition:width .3s;}
+
+/* HERO */
+.hero{max-width:900px;margin:0 auto;padding:36px 16px 28px;}
+.tag{display:inline-block;background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:2px;margin-bottom:14px;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(24px,5vw,36px);font-weight:700;line-height:1.15;margin-bottom:12px;}
+.hero-sub{font-size:14px;color:var(--muted);max-width:560px;margin-bottom:20px;}
+.hero-meta{display:flex;flex-wrap:wrap;gap:14px;}
+.meta-i{font-size:12px;color:var(--muted);}
+
+/* FR BANNER */
+.fr-banner{background:var(--dark);margin:0;padding:16px 16px;}
+.fr-banner-in{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.fr-logo-txt{font-family:'Lora',serif;font-size:18px;font-weight:700;color:#fff;}
+.fr-logo-sub{font-size:10px;color:#9aaab8;letter-spacing:1px;text-transform:uppercase;}
+.fr-links{display:flex;flex-wrap:wrap;gap:10px;}
+.fr-link{display:flex;align-items:center;gap:6px;font-size:11px;color:#9aaab8;text-decoration:none;padding:5px 10px;border:1px solid rgba(255,255,255,.15);border-radius:20px;transition:all .2s;}
+.fr-link:hover{color:#fff;border-color:rgba(255,255,255,.4);}
+
+/* TABS */
+.tabs-wrap{background:var(--surface);border-bottom:2px solid var(--border);position:sticky;top:47px;z-index:199;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tabs{max-width:900px;margin:0 auto;padding:0 16px;display:flex;}
+.tab-btn{padding:14px 16px;font-size:13px;font-weight:500;color:var(--muted);background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s;-webkit-tap-highlight-color:transparent;min-height:48px;}
+.tab-btn.on{color:var(--red);border-bottom-color:var(--red);font-weight:700;}
+
+/* CONTENT */
+.content{max-width:900px;margin:0 auto;padding:28px 16px 80px;}
+.panel{display:none;}
+.panel.on{display:block;}
+
+/* SECTIONS */
+.sec{margin-bottom:44px;}
+.sec-title{font-family:'Lora',serif;font-size:20px;font-weight:700;padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:6px;}
+.sec-intro{color:var(--muted);font-size:13.5px;margin-bottom:18px;margin-top:5px;}
+
+/* ACCORDION */
+.acc{display:flex;flex-direction:column;gap:8px;}
+.acc-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.acc-btn{width:100%;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;-webkit-tap-highlight-color:transparent;min-height:52px;}
+.acc-btn:hover{background:rgba(0,0,0,.02);}
+.acc-left{display:flex;align-items:center;gap:10px;}
+.acc-ico{font-size:17px;flex-shrink:0;}
+.acc-lbl{font-weight:600;font-size:14px;color:var(--text);}
+.acc-arr{font-size:10px;color:var(--muted);transition:transform .25s;flex-shrink:0;}
+.acc-item.open .acc-arr{transform:rotate(180deg);}
+.acc-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border);}
+.acc-item.open .acc-body{display:block;}
+.acc-body p{margin-top:12px;font-size:14px;color:#333;line-height:1.75;}
+.acc-body ul{margin-top:10px;padding-left:18px;}
+.acc-body li{font-size:14px;color:#333;margin-bottom:6px;line-height:1.6;}
+
+/* CALLOUTS */
+.box{padding:11px 14px;border-radius:0 6px 6px 0;margin-top:14px;font-size:13px;line-height:1.6;}
+.box-y{background:var(--yellow-l);border-left:3px solid var(--yellow);color:#7d6608;}
+.box-b{background:var(--blue-l);border-left:3px solid var(--blue);color:#1a5276;}
+.box-g{background:var(--green-l);border-left:3px solid var(--green);color:#1e5631;}
+.box-r{background:var(--red-l);border-left:3px solid var(--red);color:#922b21;}
+.box-p{background:var(--purple-l);border-left:3px solid var(--purple);color:#6c3483;}
+
+/* CHARTS */
+.chart-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.chart-ttl{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;text-align:center;}
+.chart-wrap svg{display:block;margin:0 auto;max-width:100%;height:auto;}
+.legend{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px;}
+.leg-i{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted);}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.leg-rect{width:14px;height:12px;flex-shrink:0;border-radius:2px;}
+
+/* VELAS GRID */
+.velas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:14px;}
+.vela-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;}
+.vela-name{font-size:11px;font-weight:700;color:var(--text);margin-top:8px;line-height:1.3;}
+.vela-desc{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4;}
+
+/* FIGURAS GRID */
+.fig-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+@media(min-width:600px){.fig-grid{grid-template-columns:1fr 1fr 1fr;}}
+.fig-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;}
+.fig-name{font-size:12px;font-weight:700;color:var(--text);margin-top:8px;}
+.fig-type{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.fig-desc{font-size:10.5px;color:var(--muted);margin-top:4px;line-height:1.4;}
+
+/* SR TABS */
+.sr-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.sr-btn{padding:8px 16px;border:1.5px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;background:var(--bg);color:var(--muted);font-family:'DM Sans',sans-serif;-webkit-tap-highlight-color:transparent;min-height:40px;transition:all .2s;}
+.sr-btn.on-g{border-color:var(--green);background:var(--green-l);color:var(--green);}
+.sr-btn.on-r{border-color:var(--red);background:var(--red-l);color:var(--red);}
+.sr-btn.on-b{border-color:var(--blue);background:var(--blue-l);color:var(--blue);}
+.sr-chart{display:none;}
+.sr-chart.on{display:block;}
+
+/* GLOSSARY */
+.glos-search-wrap{position:relative;margin-bottom:14px;}
+.glos-search{width:100%;padding:11px 16px 11px 38px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--surface);outline:none;}
+.glos-search:focus{border-color:var(--red);}
+.glos-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);}
+.glos-grid{display:flex;flex-direction:column;gap:2px;}
+.glos-item{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:3px;transition:background .15s;}
+@media(min-width:520px){.glos-item{flex-direction:row;gap:14px;}}
+.glos-item:hover{background:var(--red-l);}
+.glos-term{font-weight:700;font-size:13px;color:var(--red);flex-shrink:0;}
+@media(min-width:520px){.glos-term{min-width:190px;}}
+.glos-def{font-size:13px;color:#333;line-height:1.6;}
+.glos-item.hide{display:none;}
+.glos-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:3px;margin-left:4px;vertical-align:middle;}
+.badge-alcista{background:var(--green-l);color:var(--green);}
+.badge-bajista{background:var(--red-l);color:var(--red);}
+.badge-neutro{background:var(--blue-l);color:var(--blue);}
+.badge-cont{background:var(--yellow-l);color:var(--yellow);}
+.badge-rev{background:var(--purple-l);color:var(--purple);}
+
+/* QUIZ */
+.quiz-top{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 16px;margin-bottom:20px;text-align:center;}
+.quiz-top h3{font-family:'Lora',serif;font-size:19px;margin-bottom:6px;}
+.quiz-top p{color:var(--muted);font-size:13px;}
+.quiz-stats{display:flex;justify-content:center;gap:24px;margin-top:14px;}
+.stat-n{font-size:26px;font-weight:700;color:var(--dark);}
+.stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 16px;margin-bottom:12px;}
+.q-num{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.q-txt{font-size:15px;font-weight:600;font-family:'Lora',serif;line-height:1.5;margin-bottom:16px;}
+.opts{display:flex;flex-direction:column;gap:8px;}
+.opt-btn{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);text-align:left;cursor:pointer;font-size:13.5px;font-family:'DM Sans',sans-serif;color:var(--text);display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent;min-height:48px;transition:all .15s;}
+.opt-btn.ok{border-color:var(--green);background:var(--green-l);color:#1e8449;font-weight:600;}
+.opt-btn.no{border-color:var(--red);background:var(--red-l);color:var(--red);}
+.opt-btn.show-ok{border-color:var(--green);background:var(--green-l);opacity:.6;}
+.opt-btn:disabled{cursor:default;}
+.opt-l{width:26px;height:26px;border-radius:50%;background:var(--border);color:var(--muted);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.opt-btn.ok .opt-l{background:var(--green);color:#fff;}
+.opt-btn.no .opt-l{background:var(--red);color:#fff;}
+.fb{display:none;margin-top:10px;padding:10px 13px;border-radius:6px;font-size:13px;line-height:1.6;}
+.fb.on{display:block;}
+.fb.ok{background:var(--green-l);border-left:3px solid var(--green);color:#1a5e35;}
+.fb.no{background:var(--red-l);border-left:3px solid var(--red);color:#7b241c;}
+.quiz-acts{display:flex;flex-direction:column;gap:10px;margin-top:24px;}
+@media(min-width:400px){.quiz-acts{flex-direction:row;justify-content:center;}}
+.btn-sub{background:var(--dark);color:#fff;border:none;padding:13px 32px;border-radius:8px;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;width:100%;}
+@media(min-width:400px){.btn-sub{width:auto;}}
+.btn-rst{background:#fff;color:var(--dark);border:1.5px solid var(--dark);padding:13px 32px;border-radius:8px;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;width:100%;}
+@media(min-width:400px){.btn-rst{width:auto;}}
+.result{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:28px 16px;text-align:center;margin-top:20px;display:none;}
+.result.on{display:block;}
+.res-score{font-size:48px;font-weight:700;color:var(--dark);}
+.res-lbl{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.res-bar-w{background:var(--border);border-radius:8px;height:10px;margin:14px auto;max-width:260px;}
+.res-bar{height:10px;border-radius:8px;background:var(--green);width:0;transition:width 1s;}
+.res-msg{font-family:'Lora',serif;font-size:17px;margin-bottom:4px;}
+.res-sub{font-size:13px;color:var(--muted);}
+
+/* FR FOOTER */
+.fr-footer{background:var(--dark);padding:24px 16px;margin-top:0;}
+.fr-footer-in{max-width:900px;margin:0 auto;}
+.fr-footer-title{font-family:'Lora',serif;font-size:16px;color:#fff;margin-bottom:4px;}
+.fr-footer-sub{font-size:12px;color:#9aaab8;margin-bottom:16px;}
+.fr-footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(min-width:500px){.fr-footer-grid{grid-template-columns:repeat(4,1fr);}}
+.fr-footer-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 12px;}
+.fr-footer-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9aaab8;margin-bottom:3px;}
+.fr-footer-val{font-size:12px;font-weight:600;color:#fff;}
+.fr-footer-copy{font-size:10px;color:#6b6860;margin-top:16px;text-align:center;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="hdr-brand">Finanzas Razonables</div>
+    <div class="hdr-ttl">Encuentro 2 — Patrones y Figuras</div>
+  </div>
+  <div class="prog-wrap"><div class="prog-bar" id="prog"></div></div>
+</header>
+
+<!-- FR BANNER -->
+<div class="fr-banner">
+  <div class="fr-banner-in">
+    <div>
+      <div class="fr-logo-txt">Finanzas Razonables</div>
+      <div class="fr-logo-sub">Asesor Financiero</div>
+    </div>
+    <div class="fr-links">
+      <a class="fr-link" href="https://youtube.com/@FinanzasRazonables" target="_blank">▶ YouTube</a>
+      <a class="fr-link" href="https://instagram.com/finanzasrazonables" target="_blank">📸 Instagram</a>
+      <a class="fr-link" href="https://wa.me/5491133105753" target="_blank">💬 WhatsApp</a>
+      <a class="fr-link" href="https://finanzasrazonables.com.ar" target="_blank">🌐 Web</a>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="tag">Encuentro 2 de 5</div>
+  <h1>Patrones y Figuras</h1>
+  <p class="hero-sub">Aprendé a leer lo que el mercado te está diciendo antes de que suceda. Velas, soportes, resistencias y las figuras más importantes del análisis técnico.</p>
+  <div class="hero-meta">
+    <div class="meta-i">📚 5 temas principales</div>
+    <div class="meta-i">📖 35 términos en glosario</div>
+    <div class="meta-i">✅ 12 preguntas de práctica</div>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn on" data-tab="teoria">📘 Teoría</button>
+    <button class="tab-btn" data-tab="glosario">📖 Glosario</button>
+    <button class="tab-btn" data-tab="quiz">✅ Quiz</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ======= TEORIA ======= -->
+<div class="panel on" id="panel-teoria">
+
+<!-- ===== 1. SOPORTES Y RESISTENCIAS ===== -->
+<div class="sec">
+  <div class="sec-title">1. Soportes y Resistencias</div>
+  <p class="sec-intro">Los niveles más importantes del análisis técnico. Entender dónde el precio puede rebotar o romperse es la base de cualquier operación.</p>
+  <div class="acc">
+    <div class="acc-item open">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">🧱</span><span class="acc-lbl">Qué son y cómo identificarlos</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <p>Un <strong>soporte</strong> es un nivel de precio donde la demanda es suficientemente fuerte para detener o revertir una caída. El precio "rebota" hacia arriba al llegar a ese nivel porque hay más compradores que vendedores.</p>
+        <p>Una <strong>resistencia</strong> es lo contrario: un nivel donde la oferta supera la demanda y el precio frena o retrocede porque hay más vendedores que compradores.</p>
+        <ul>
+          <li>Se identifican en los <strong>máximos y mínimos previos</strong> del precio.</li>
+          <li>Cuantas más veces el precio toca un nivel sin romperlo, <strong>más fuerte</strong> es ese soporte o resistencia.</li>
+          <li>Los soportes y resistencias funcionan en <strong>todos los marcos temporales</strong>: diario, semanal, mensual.</li>
+        </ul>
+        <div class="box box-b">💡 Es mejor hablar de <strong>zonas</strong> de soporte/resistencia que de niveles exactos. El precio rara vez toca exactamente el mismo punto — suele rondar un rango.</div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">🔄</span><span class="acc-lbl">Cambio de rol: el soporte roto se convierte en resistencia</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <p>Este es uno de los conceptos más importantes del AT: cuando el precio <strong>rompe un soporte</strong>, ese nivel se convierte en resistencia. Y cuando <strong>rompe una resistencia</strong>, ese nivel pasa a ser soporte.</p>
+        <ul>
+          <li>Los traders que compraron en el soporte roto ahora están en pérdida y esperan que el precio vuelva para vender (resistencia).</li>
+          <li>Los traders que vendieron en la resistencia rota ahora están en pérdida y esperan que el precio baje para comprar (soporte).</li>
+        </ul>
+        <div class="box box-y">⚠️ El <strong>throwback</strong> es cuando el precio rompe una resistencia, sube un poco y vuelve a testear ese nivel (ahora soporte) antes de continuar subiendo. Es una oportunidad de entrada muy buscada.</div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">📏</span><span class="acc-lbl">Soportes y resistencias dinámicos</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <p>A diferencia de los soportes/resistencias estáticos (niveles fijos), los <strong>dinámicos</strong> se mueven con el tiempo:</p>
+        <ul>
+          <li><strong>Líneas de tendencia:</strong> la línea que conecta mínimos crecientes actúa como soporte dinámico en un uptrend.</li>
+          <li><strong>Medias móviles:</strong> las medias de 20, 50 y 200 períodos actúan frecuentemente como soporte o resistencia dinámica.</li>
+          <li><strong>Canales:</strong> las líneas superior e inferior del canal son resistencia y soporte dinámicos respectivamente.</li>
+        </ul>
+        <div class="box box-g">✅ Cuando un soporte/resistencia estático coincide con uno dinámico, la zona es mucho más significativa. Esto se llama <strong>confluencia</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráfico S/R con cambio de rol -->
+  <div class="chart-wrap">
+    <div class="chart-ttl">Soporte, Resistencia y Cambio de Rol</div>
+    <svg viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg">
+      <!-- Zona soporte horizontal -->
+      <rect x="30" y="148" width="280" height="8" fill="#27ae60" opacity=".15" rx="2"/>
+      <line x1="30" y1="152" x2="310" y2="152" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <!-- Zona resistencia horizontal -->
+      <rect x="30" y="72" width="280" height="8" fill="#c0392b" opacity=".15" rx="2"/>
+      <line x1="30" y1="76" x2="310" y2="76" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <!-- Precio parte 1: rebotes entre S y R -->
+      <polyline points="30,152 60,110 85,152 115,95 140,152 170,80 195,152 220,82 245,152 270,78 295,152 310,108" fill="none" stroke="#2c3e50" stroke-width="2.2" stroke-linejoin="round"/>
+      <!-- Ruptura de resistencia -->
+      <polyline points="310,108 330,76 345,55 360,40 375,30" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- Throwback al nivel roto (ahora soporte) -->
+      <polyline points="375,30 390,50 405,76 420,65 435,76 450,55 465,76 480,50 500,35" fill="none" stroke="#2c3e50" stroke-width="2.2" stroke-linejoin="round"/>
+      <!-- Línea del nivel roto ahora como soporte -->
+      <line x1="310" y1="76" x2="660" y2="76" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <!-- Puntos rebotes soporte -->
+      <circle cx="30"  cy="152" r="4" fill="#27ae60"/>
+      <circle cx="85"  cy="152" r="4" fill="#27ae60"/>
+      <circle cx="140" cy="152" r="4" fill="#27ae60"/>
+      <circle cx="195" cy="152" r="4" fill="#27ae60"/>
+      <circle cx="245" cy="152" r="4" fill="#27ae60"/>
+      <circle cx="295" cy="152" r="4" fill="#27ae60"/>
+      <!-- Puntos rebotes resistencia -->
+      <circle cx="60"  cy="110" r="4" fill="white" stroke="#c0392b" stroke-width="2"/>
+      <circle cx="115" cy="95"  r="4" fill="white" stroke="#c0392b" stroke-width="2"/>
+      <circle cx="170" cy="80"  r="4" fill="white" stroke="#c0392b" stroke-width="2"/>
+      <circle cx="220" cy="82"  r="4" fill="white" stroke="#c0392b" stroke-width="2"/>
+      <circle cx="270" cy="78"  r="4" fill="white" stroke="#c0392b" stroke-width="2"/>
+      <!-- Ruptura -->
+      <circle cx="330" cy="76" r="6" fill="#c0392b"/>
+      <!-- Throwback -->
+      <circle cx="405" cy="76" r="5" fill="white" stroke="#27ae60" stroke-width="2"/>
+      <circle cx="435" cy="76" r="5" fill="white" stroke="#27ae60" stroke-width="2"/>
+      <circle cx="465" cy="76" r="5" fill="white" stroke="#27ae60" stroke-width="2"/>
+      <!-- Labels -->
+      <text x="20"  y="168" font-family="DM Sans,sans-serif" font-size="9" fill="#27ae60" font-weight="700">SOPORTE</text>
+      <text x="20"  y="68"  font-family="DM Sans,sans-serif" font-size="9" fill="#c0392b" font-weight="700">RESISTENCIA</text>
+      <text x="510" y="68"  font-family="DM Sans,sans-serif" font-size="9" fill="#27ae60" font-weight="700">AHORA SOPORTE</text>
+      <!-- Flecha ruptura -->
+      <text x="320" y="45" font-family="DM Sans,sans-serif" font-size="9" fill="#c0392b" font-weight="700">⚡ RUPTURA</text>
+      <!-- Throwback label -->
+      <text x="395" y="95" font-family="DM Sans,sans-serif" font-size="8" fill="#27ae60">THROWBACK</text>
+      <!-- Eje -->
+      <line x1="30" y1="250" x2="640" y2="250" stroke="#e8e4dc" stroke-width="1"/>
+      <text x="30" y="248" font-family="DM Sans,sans-serif" font-size="8" fill="#bbb">TIEMPO →</text>
+    </svg>
+    <div class="legend">
+      <div class="leg-i"><div class="leg-dot" style="background:#27ae60"></div>Soporte</div>
+      <div class="leg-i"><div class="leg-dot" style="background:#c0392b"></div>Resistencia</div>
+      <div class="leg-i"><div class="leg-dot" style="background:#c0392b;opacity:.5"></div>Ruptura</div>
+      <div class="leg-i"><div class="leg-dot" style="background:#27ae60;opacity:.5"></div>Cambio de rol</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2. VELAS JAPONESAS ===== -->
+<div class="sec">
+  <div class="sec-title">2. Velas Japonesas</div>
+  <p class="sec-intro">Las velas japonesas son la forma más completa de representar el precio. Cada vela cuenta una historia sobre la batalla entre compradores y vendedores.</p>
+  <div class="acc">
+    <div class="acc-item open">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">🕯️</span><span class="acc-lbl">Anatomía de una vela japonesa</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <p>Cada vela representa un período de tiempo (1 minuto, 1 hora, 1 día, etc.) y contiene 4 datos clave:</p>
+        <ul>
+          <li><strong>Apertura (Open):</strong> precio al inicio del período.</li>
+          <li><strong>Cierre (Close):</strong> precio al final del período.</li>
+          <li><strong>Máximo (High):</strong> precio más alto alcanzado.</li>
+          <li><strong>Mínimo (Low):</strong> precio más bajo alcanzado.</li>
+        </ul>
+        <p>El <strong>cuerpo</strong> de la vela es el rectángulo entre apertura y cierre. Las <strong>mechas</strong> (o sombras) son las líneas que se extienden hacia el máximo y mínimo.</p>
+        <ul>
+          <li><strong>Vela alcista (verde/blanca):</strong> el cierre es mayor que la apertura. Los compradores dominaron el período.</li>
+          <li><strong>Vela bajista (roja/negra):</strong> el cierre es menor que la apertura. Los vendedores dominaron el período.</li>
+        </ul>
+        <div class="box box-b">💡 El tamaño del cuerpo indica la fuerza del movimiento. Un cuerpo grande = movimiento decisivo. Un cuerpo pequeño = indecisión en el mercado.</div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">📊</span><span class="acc-lbl">Velas clave y su interpretación</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <p>Existen decenas de patrones de velas, pero estas son las más importantes para operar:</p>
+        <ul>
+          <li><strong>Marubozu alcista:</strong> vela verde sin mechas. Apertura = mínimo, cierre = máximo. Señal de fuerza compradora total.</li>
+          <li><strong>Marubozu bajista:</strong> vela roja sin mechas. Señal de fuerza vendedora total.</li>
+          <li><strong>Martillo:</strong> cuerpo pequeño arriba, mecha larga abajo. Señal de reversión alcista en mínimos.</li>
+          <li><strong>Estrella fugaz:</strong> cuerpo pequeño abajo, mecha larga arriba. Señal de reversión bajista en máximos.</li>
+          <li><strong>Doji:</strong> apertura y cierre casi iguales. Indica indecisión. Puede señalar un cambio de tendencia.</li>
+          <li><strong>Envolvente alcista:</strong> vela verde que "envuelve" completamente a la vela roja anterior. Señal de reversión alcista fuerte.</li>
+          <li><strong>Envolvente bajista:</strong> vela roja que envuelve a la verde anterior. Señal de reversión bajista fuerte.</li>
+        </ul>
+        <div class="box box-y">⚠️ Una vela sola rara vez es suficiente señal. Siempre confirmá con el contexto: ¿dónde está el precio? ¿En un soporte? ¿En una resistencia? ¿Con alto volumen?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráfico anatomía de vela -->
+  <div class="chart-wrap">
+    <div class="chart-ttl">Anatomía de una Vela Japonesa</div>
+    <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Vela alcista -->
+      <line x1="110" y1="30" x2="110" y2="170" stroke="#27ae60" stroke-width="1.5"/>
+      <rect x="88" y="70" width="44" height="70" fill="#27ae60" rx="2"/>
+      <!-- Labels vela alcista -->
+      <line x1="110" y1="30" x2="160" y2="30" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="164" y="34" font-family="DM Sans,sans-serif" font-size="10" fill="#333">Máximo (High)</text>
+      <line x1="110" y1="70" x2="160" y2="70" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="164" y="74" font-family="DM Sans,sans-serif" font-size="10" fill="#27ae60" font-weight="700">Cierre (Close)</text>
+      <line x1="110" y1="140" x2="160" y2="140" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="164" y="144" font-family="DM Sans,sans-serif" font-size="10" fill="#27ae60">Apertura (Open)</text>
+      <line x1="110" y1="170" x2="160" y2="170" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="164" y="174" font-family="DM Sans,sans-serif" font-size="10" fill="#333">Mínimo (Low)</text>
+      <!-- Flechas cuerpo y mechas -->
+      <line x1="55" y1="70" x2="88" y2="70" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="55" y1="140" x2="88" y2="140" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="55" y1="70" x2="55" y2="140" stroke="#aaa" stroke-width="1"/>
+      <text x="5" y="112" font-family="DM Sans,sans-serif" font-size="9" fill="#27ae60" font-weight="700">CUERPO</text>
+      <line x1="40" y1="30" x2="88" y2="30" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="5" y="33" font-family="DM Sans,sans-serif" font-size="9" fill="#666">MECHA</text>
+      <text x="80" y="190" font-family="DM Sans,sans-serif" font-size="10" fill="#27ae60" font-weight="700" text-anchor="middle">ALCISTA</text>
+
+      <!-- Vela bajista -->
+      <line x1="390" y1="30" x2="390" y2="170" stroke="#c0392b" stroke-width="1.5"/>
+      <rect x="368" y="70" width="44" height="70" fill="#c0392b" rx="2"/>
+      <!-- Labels vela bajista -->
+      <text x="285" y="34" font-family="DM Sans,sans-serif" font-size="10" fill="#333">Máximo</text>
+      <line x1="330" y1="30" x2="368" y2="30" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="280" y="74" font-family="DM Sans,sans-serif" font-size="10" fill="#c0392b">Apertura</text>
+      <line x1="325" y1="70" x2="368" y2="70" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="285" y="144" font-family="DM Sans,sans-serif" font-size="10" fill="#c0392b" font-weight="700">Cierre</text>
+      <line x1="330" y1="140" x2="368" y2="140" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="285" y="174" font-family="DM Sans,sans-serif" font-size="10" fill="#333">Mínimo</text>
+      <line x1="330" y1="170" x2="368" y2="170" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="360" y="190" font-family="DM Sans,sans-serif" font-size="10" fill="#c0392b" font-weight="700" text-anchor="middle">BAJISTA</text>
+    </svg>
+  </div>
+
+  <!-- Velas clave visuales -->
+  <div class="chart-wrap" style="margin-top:12px;">
+    <div class="chart-ttl">Velas Clave — Las más importantes</div>
+    <svg viewBox="0 0 660 140" xmlns="http://www.w3.org/2000/svg">
+      <!-- Marubozu alcista -->
+      <rect x="20" y="30" width="30" height="80" fill="#27ae60" rx="2"/>
+      <text x="35" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#27ae60" font-weight="700">MARUBOZU</text>
+      <text x="35" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#27ae60">Alcista</text>
+      <!-- Marubozu bajista -->
+      <rect x="75" y="30" width="30" height="80" fill="#c0392b" rx="2"/>
+      <text x="90" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#c0392b" font-weight="700">MARUBOZU</text>
+      <text x="90" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#c0392b">Bajista</text>
+      <!-- Martillo -->
+      <line x1="150" y1="40" x2="150" y2="110" stroke="#27ae60" stroke-width="1.5"/>
+      <rect x="135" y="40" width="30" height="20" fill="#27ae60" rx="2"/>
+      <text x="150" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#27ae60" font-weight="700">MARTILLO</text>
+      <text x="150" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#27ae60">Reversión ↑</text>
+      <!-- Estrella fugaz -->
+      <line x1="215" y1="30" x2="215" y2="100" stroke="#c0392b" stroke-width="1.5"/>
+      <rect x="200" y="80" width="30" height="20" fill="#c0392b" rx="2"/>
+      <text x="215" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#c0392b" font-weight="700">ESTRELLA</text>
+      <text x="215" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#c0392b">FUGAZ ↓</text>
+      <!-- Doji -->
+      <line x1="280" y1="30" x2="280" y2="110" stroke="#2980b9" stroke-width="1.5"/>
+      <rect x="265" y="68" width="30" height="4" fill="#2980b9" rx="1"/>
+      <text x="280" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#2980b9" font-weight="700">DOJI</text>
+      <text x="280" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#2980b9">Indecisión</text>
+      <!-- Envolvente alcista -->
+      <rect x="330" y="55" width="20" height="40" fill="#c0392b" rx="1" opacity=".8"/>
+      <rect x="325" y="40" width="30" height="70" fill="none" stroke="#27ae60" stroke-width="2" rx="2"/>
+      <rect x="325" y="40" width="30" height="70" fill="#27ae60" opacity=".15" rx="2"/>
+      <text x="340" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#27ae60" font-weight="700">ENVOLVENTE</text>
+      <text x="340" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#27ae60">Alcista ↑</text>
+      <!-- Envolvente bajista -->
+      <rect x="400" y="45" width="20" height="40" fill="#27ae60" rx="1" opacity=".8"/>
+      <rect x="395" y="30" width="30" height="70" fill="none" stroke="#c0392b" stroke-width="2" rx="2"/>
+      <rect x="395" y="30" width="30" height="70" fill="#c0392b" opacity=".15" rx="2"/>
+      <text x="410" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#c0392b" font-weight="700">ENVOLVENTE</text>
+      <text x="410" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#c0392b">Bajista ↓</text>
+      <!-- Harami -->
+      <rect x="455" y="30" width="30" height="80" fill="#c0392b" rx="2" opacity=".3"/>
+      <rect x="462" y="48" width="16" height="44" fill="#27ae60" rx="1"/>
+      <text x="470" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#8e44ad" font-weight="700">HARAMI</text>
+      <text x="470" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#8e44ad">Indecisión</text>
+      <!-- Spinning top -->
+      <line x1="540" y1="30" x2="540" y2="110" stroke="#f39c12" stroke-width="1.5"/>
+      <rect x="525" y="58" width="30" height="24" fill="#f39c12" rx="2" opacity=".6"/>
+      <text x="540" y="125" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#f39c12" font-weight="700">SPINNING</text>
+      <text x="540" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#f39c12">TOP</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ===== 3. FIGURAS DE CONTINUIDAD ===== -->
+<div class="sec">
+  <div class="sec-title">3. Figuras de Continuidad</div>
+  <p class="sec-intro">Son formaciones gráficas que aparecen dentro de una tendencia y señalan que ésta va a continuar después de una pausa. Son "descansos" del mercado antes de retomar la dirección principal.</p>
+  <div class="acc">
+    <div class="acc-item open">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">📐</span><span class="acc-lbl">Triángulos</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <p>Los triángulos se forman cuando el precio hace máximos y mínimos que convergen hacia un vértice. La ruptura del triángulo suele ser explosiva.</p>
+        <ul>
+          <li><strong>Triángulo simétrico:</strong> línea superior descendente + línea inferior ascendente. Los dos lados convergen. Suele romper en la dirección de la tendencia previa.</li>
+          <li><strong>Triángulo ascendente:</strong> línea superior horizontal (resistencia) + línea inferior ascendente. Los compradores son más agresivos. Ruptura generalmente alcista.</li>
+          <li><strong>Triángulo descendente:</strong> línea superior descendente + línea inferior horizontal (soporte). Los vendedores son más agresivos. Ruptura generalmente bajista.</li>
+        </ul>
+        <div class="box box-g">✅ La ruptura del triángulo con alto volumen confirma la señal. El precio objetivo se calcula proyectando la altura del triángulo desde el punto de ruptura.</div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">🚩</span><span class="acc-lbl">Banderas y banderines</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <p>Son figuras de continuidad de corto plazo que aparecen después de un movimiento brusco (el "mástil") seguido de una consolidación.</p>
+        <ul>
+          <li><strong>Bandera alcista:</strong> después de una subida fuerte, el precio consolida en un pequeño canal bajista. La ruptura al alza retoma la tendencia.</li>
+          <li><strong>Bandera bajista:</strong> después de una caída fuerte, consolida en un pequeño canal alcista. La ruptura a la baja retoma la caída.</li>
+          <li><strong>Banderín:</strong> similar a la bandera pero la consolidación forma un pequeño triángulo simétrico en lugar de un canal.</li>
+        </ul>
+        <div class="box box-b">💡 Las banderas son de las figuras más confiables del AT. El mástil da una buena referencia para el precio objetivo: la proyección del mástil desde la ruptura.</div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">🔀</span><span class="acc-lbl">Cuñas</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <ul>
+          <li><strong>Cuña alcista (rising wedge):</strong> el precio sube pero con máximos y mínimos que convergen hacia arriba. Los compradores pierden fuerza. Señal bajista — ruptura generalmente a la baja.</li>
+          <li><strong>Cuña bajista (falling wedge):</strong> el precio cae con máximos y mínimos que convergen hacia abajo. Los vendedores pierden fuerza. Señal alcista — ruptura generalmente al alza.</li>
+        </ul>
+        <div class="box box-y">⚠️ Las cuñas pueden ser tanto de continuidad como de reversión dependiendo del contexto. Una cuña alcista en tendencia alcista es de continuación bajista (corrección). Una cuña alcista en tendencia bajista es de reversión alcista.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráfico 1: Triángulos y Bandera -->
+  <div class="chart-wrap">
+    <div class="chart-ttl">Triángulos y Banderas</div>
+    <svg viewBox="0 0 660 210" xmlns="http://www.w3.org/2000/svg">
+      <!-- TRIÁNGULO ASCENDENTE -->
+      <text x="80" y="15" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#27ae60" font-weight="700">TRIÁNGULO ASC.</text>
+      <line x1="20" y1="165" x2="140" y2="85" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="20" y1="85" x2="155" y2="85" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <polyline points="20,165 40,125 60,85 76,108 92,85 108,92 124,85 138,87" fill="none" stroke="#2c3e50" stroke-width="2" stroke-linejoin="round"/>
+      <polyline points="138,87 150,68 162,50" fill="none" stroke="#27ae60" stroke-width="2.2"/>
+      <polygon points="162,50 155,60 161,65" fill="#27ae60"/>
+      <text x="80" y="200" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#27ae60">Ruptura alcista ↑</text>
+
+      <!-- TRIÁNGULO SIMÉTRICO -->
+      <text x="270" y="15" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#2980b9" font-weight="700">TRIÁNGULO SIM.</text>
+      <line x1="190" y1="60" x2="320" y2="110" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="190" y1="160" x2="320" y2="110" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <polyline points="190,60 210,145 230,80 250,130 268,95 285,118 300,108 314,112" fill="none" stroke="#2c3e50" stroke-width="2" stroke-linejoin="round"/>
+      <polyline points="314,112 330,90 345,70" fill="none" stroke="#27ae60" stroke-width="2.2"/>
+      <polygon points="345,70 338,80 344,85" fill="#27ae60"/>
+      <text x="270" y="200" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#2980b9">Rompe según tendencia previa</text>
+
+      <!-- BANDERA ALCISTA -->
+      <text x="455" y="15" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#27ae60" font-weight="700">BANDERA ALCISTA</text>
+      <!-- Mástil -->
+      <line x1="380" y1="180" x2="420" y2="80" stroke="#2c3e50" stroke-width="3"/>
+      <text x="370" y="138" font-family="DM Sans,sans-serif" font-size="8" fill="#666" transform="rotate(-68,370,138)">MÁSTIL</text>
+      <!-- Cuerpo bandera -->
+      <polyline points="420,80 435,92 448,87 462,100 475,95 488,108" fill="none" stroke="#2c3e50" stroke-width="2" stroke-linejoin="round"/>
+      <line x1="420" y1="80" x2="490" y2="108" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <line x1="426" y1="96" x2="496" y2="124" stroke="#27ae60" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <!-- Ruptura bandera -->
+      <polyline points="488,108 503,88 518,68 533,48" fill="none" stroke="#27ae60" stroke-width="2.2"/>
+      <polygon points="533,48 526,58 532,63" fill="#27ae60"/>
+      <text x="455" y="200" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#27ae60">Consolida → continúa ↑</text>
+
+      <line x1="10" y1="195" x2="650" y2="195" stroke="#e8e4dc" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <!-- Gráfico 2: Banderín y Cuñas -->
+  <div class="chart-wrap" style="margin-top:12px;">
+    <div class="chart-ttl">Banderín y Cuñas</div>
+    <svg viewBox="0 0 660 210" xmlns="http://www.w3.org/2000/svg">
+      <!-- BANDERÍN ALCISTA -->
+      <text x="100" y="15" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#27ae60" font-weight="700">BANDERÍN ALCISTA</text>
+      <!-- Mástil -->
+      <line x1="20" y1="180" x2="65" y2="75" stroke="#2c3e50" stroke-width="3"/>
+      <!-- Triángulo pequeño (banderín) -->
+      <polyline points="65,75 80,90 90,82 100,92 108,86 115,90 120,88" fill="none" stroke="#2c3e50" stroke-width="2" stroke-linejoin="round"/>
+      <line x1="65" y1="75" x2="122" y2="88" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="3,2"/>
+      <line x1="65" y1="95" x2="122" y2="88" stroke="#27ae60" stroke-width="1.2" stroke-dasharray="3,2"/>
+      <!-- Ruptura -->
+      <polyline points="120,88 135,68 150,48 165,30" fill="none" stroke="#27ae60" stroke-width="2.2"/>
+      <polygon points="165,30 158,40 164,45" fill="#27ae60"/>
+      <text x="60" y="200" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#666">Mástil + mini triángulo</text>
+      <text x="125" y="200" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#27ae60">Ruptura ↑</text>
+
+      <!-- CUÑA ALCISTA (señal bajista) -->
+      <text x="330" y="15" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#c0392b" font-weight="700">CUÑA ALCISTA ↑ → señal ↓</text>
+      <line x1="210" y1="160" x2="360" y2="60" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <line x1="210" y1="190" x2="360" y2="100" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <polyline points="210,190 230,148 245,165 262,128 278,148 295,115 312,135 328,102 342,120 357,95" fill="none" stroke="#2c3e50" stroke-width="2" stroke-linejoin="round"/>
+      <polyline points="357,95 370,115 383,140 395,165" fill="none" stroke="#c0392b" stroke-width="2.2"/>
+      <polygon points="395,165 390,154 398,153" fill="#c0392b"/>
+      <text x="280" y="200" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#c0392b">Sube pero pierde fuerza → cae</text>
+
+      <!-- CUÑA BAJISTA (señal alcista) -->
+      <text x="560" y="15" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#27ae60" font-weight="700">CUÑA BAJISTA ↓ → señal ↑</text>
+      <line x1="430" y1="50" x2="580" y2="130" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <line x1="430" y1="20" x2="580" y2="80" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <polyline points="430,20 448,62 462,38 480,78 495,55 514,90 528,68 545,102 558,82 572,112" fill="none" stroke="#2c3e50" stroke-width="2" stroke-linejoin="round"/>
+      <polyline points="572,112 585,90 598,65 610,42" fill="none" stroke="#27ae60" stroke-width="2.2"/>
+      <polygon points="610,42 603,52 609,57" fill="#27ae60"/>
+      <text x="520" y="200" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#27ae60">Baja pero pierde fuerza → sube</text>
+
+      <line x1="10" y1="195" x2="650" y2="195" stroke="#e8e4dc" stroke-width="1"/>
+    </svg>
+    <div class="legend">
+      <div class="leg-i"><div class="leg-dot" style="background:#27ae60"></div>Señal alcista</div>
+      <div class="leg-i"><div class="leg-dot" style="background:#c0392b"></div>Señal bajista</div>
+      <div class="leg-i"><div class="leg-dot" style="background:#2980b9"></div>Neutral (depende tendencia)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 4. FIGURAS DE REVERSIÓN ===== -->
+<div class="sec">
+  <div class="sec-title">4. Figuras de Reversión</div>
+  <p class="sec-intro">Estas formaciones señalan que la tendencia actual está terminando y el precio va a cambiar de dirección. Son las más buscadas por los traders.</p>
+  <div class="acc">
+    <div class="acc-item open">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">🔝</span><span class="acc-lbl">Doble Techo y Doble Piso</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <p>Son las figuras de reversión más comunes y más confiables.</p>
+        <ul>
+          <li><strong>Doble techo (M):</strong> el precio alcanza un máximo, retrocede, vuelve al mismo nivel y no puede superarlo. Forma una "M". Señal bajista cuando rompe el soporte (neckline).</li>
+          <li><strong>Doble piso (W):</strong> el precio cae a un mínimo, rebota, vuelve al mismo nivel y no puede bajar más. Forma una "W". Señal alcista cuando rompe la resistencia (neckline).</li>
+        </ul>
+        <div class="box box-r">⚠️ La señal se confirma solo cuando el precio rompe el <strong>neckline</strong> (línea de escote). Muchos traders novatos entran antes de esta confirmación y sufren falsas señales.</div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">👤</span><span class="acc-lbl">Hombro-Cabeza-Hombro (HCH)</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <p>Es la figura de reversión más famosa y confiable del AT. Señala el fin de una tendencia alcista.</p>
+        <ul>
+          <li><strong>Hombro izquierdo:</strong> máximo, retroceso.</li>
+          <li><strong>Cabeza:</strong> máximo más alto que el hombro izquierdo, retroceso.</li>
+          <li><strong>Hombro derecho:</strong> máximo similar al hombro izquierdo (no supera la cabeza), retroceso.</li>
+          <li><strong>Neckline:</strong> línea que une los dos mínimos. La ruptura confirma la figura.</li>
+        </ul>
+        <p>El <strong>HCH invertido</strong> es la misma figura al revés: aparece al final de una tendencia bajista y señala reversión alcista.</p>
+        <div class="box box-p">📐 Precio objetivo: la altura de la cabeza al neckline, proyectada desde la ruptura hacia abajo (o arriba en el HCH invertido).</div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">⚡</span><span class="acc-lbl">Triple techo, Triple piso y Vuelta en V</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <ul>
+          <li><strong>Triple techo:</strong> como el doble techo pero el precio toca tres veces la misma resistencia. Señal bajista más fuerte que el doble techo.</li>
+          <li><strong>Triple piso:</strong> el precio toca tres veces el mismo soporte. Señal alcista muy fuerte.</li>
+          <li><strong>Vuelta en V:</strong> reversión brusca sin consolidación. El precio cae o sube de forma violenta y revierte de inmediato. Es la más difícil de operar por la velocidad del movimiento.</li>
+        </ul>
+        <div class="box box-y">⚠️ A mayor número de toques en un nivel sin romperlo, mayor es la fuerza acumulada para cuando finalmente lo rompe. Tres toques = señal más fuerte que dos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráficos figuras de reversión -->
+  <div class="chart-wrap">
+    <div class="chart-ttl">Figuras de Reversión — Visualización</div>
+    <svg viewBox="0 0 660 210" xmlns="http://www.w3.org/2000/svg">
+      <!-- DOBLE TECHO -->
+      <text x="80" y="15" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#c0392b" font-weight="700">DOBLE TECHO (M)</text>
+      <polyline points="20,180 50,80 80,120 110,80 140,180" fill="none" stroke="#2c3e50" stroke-width="2.2" stroke-linejoin="round"/>
+      <line x1="20" y1="120" x2="160" y2="120" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="162" y="124" font-family="DM Sans,sans-serif" font-size="8" fill="#c0392b">NECKLINE</text>
+      <circle cx="50" cy="80" r="4" fill="#c0392b"/>
+      <circle cx="110" cy="80" r="4" fill="#c0392b"/>
+      <polyline points="140,180 150,190 155,185 160,195" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="4,2"/>
+
+      <!-- HCH -->
+      <text x="330" y="15" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#c0392b" font-weight="700">HOMBRO-CABEZA-HOMBRO</text>
+      <polyline points="220,170 245,120 265,140 290,60 315,140 335,120 360,170" fill="none" stroke="#2c3e50" stroke-width="2.2" stroke-linejoin="round"/>
+      <line x1="220" y1="140" x2="380" y2="140" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="382" y="144" font-family="DM Sans,sans-serif" font-size="8" fill="#c0392b">NECKLINE</text>
+      <text x="245" y="115" font-family="DM Sans,sans-serif" font-size="7" fill="#2c3e50">H.IZQ</text>
+      <text x="285" y="50" font-family="DM Sans,sans-serif" font-size="7" fill="#c0392b" font-weight="700">CABEZA</text>
+      <text x="330" y="115" font-family="DM Sans,sans-serif" font-size="7" fill="#2c3e50">H.DER</text>
+      <!-- Ruptura HCH -->
+      <polyline points="360,170 375,185 385,195" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="4,2"/>
+
+      <!-- DOBLE PISO -->
+      <text x="560" y="15" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#27ae60" font-weight="700">DOBLE PISO (W)</text>
+      <polyline points="460,40 490,140 520,100 550,140 580,40" fill="none" stroke="#2c3e50" stroke-width="2.2" stroke-linejoin="round"/>
+      <line x1="455" y1="100" x2="595" y2="100" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <circle cx="490" cy="140" r="4" fill="#27ae60"/>
+      <circle cx="550" cy="140" r="4" fill="#27ae60"/>
+      <polyline points="580,40 592,25 598,30 603,18" fill="none" stroke="#27ae60" stroke-width="2" stroke-dasharray="4,2"/>
+
+      <line x1="10" y1="200" x2="640" y2="200" stroke="#e8e4dc" stroke-width="1"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ===== 5. CAJA DE PUNTAS ===== -->
+<div class="sec">
+  <div class="sec-title">5. Caja de Puntas</div>
+  <p class="sec-intro">No es una figura chartista — es una <strong>herramienta de precio</strong>. Define el rango operativo entre el último máximo y mínimo relevante para planificar entradas, stops y objetivos.</p>
+  <div class="acc">
+    <div class="acc-item open">
+      <button class="acc-btn" type="button">
+        <div class="acc-left"><span class="acc-ico">📦</span><span class="acc-lbl">Qué es y cómo usarla</span></div>
+        <span class="acc-arr">▼</span>
+      </button>
+      <div class="acc-body">
+        <p>La <strong>caja de puntas</strong> es simplemente el rango de precio entre el último máximo relevante (techo) y el último mínimo relevante (piso). No es una figura de continuidad ni de reversión — es una herramienta que el trader traza para delimitar su zona de operación.</p>
+        <ul>
+          <li>El <strong>techo</strong> de la caja es la resistencia a vigilar. El <strong>piso</strong> es el soporte.</li>
+          <li>El precio puede rebotar dentro de la caja varias veces antes de romper.</li>
+          <li><strong>Ruptura alcista:</strong> el precio supera el techo. La caja completa se convierte en zona de soporte.</li>
+          <li><strong>Ruptura bajista:</strong> el precio rompe el piso. La caja completa se convierte en zona de resistencia.</li>
+          <li><strong>Stop loss:</strong> se ubica por debajo del piso (en ruptura alcista) o por encima del techo (en ruptura bajista).</li>
+          <li><strong>Precio objetivo:</strong> se proyecta la altura de la caja desde el punto de ruptura.</li>
+        </ul>
+        <div class="box box-g">✅ La caja de puntas es una herramienta de gestión, no una señal de entrada por sí sola. Se usa combinada con velas, volumen y otros indicadores para confirmar la operación.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-ttl">Caja de Puntas — Acumulación y Ruptura</div>
+    <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Caja -->
+      <rect x="100" y="70" width="200" height="80" fill="#2980b9" opacity=".07" rx="4" stroke="#2980b9" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <!-- Precio dentro de la caja -->
+      <polyline points="20,180 60,150 80,110 100,150 120,70 140,110 160,75 180,108 200,72 220,105 240,75 260,108 280,72 300,150" fill="none" stroke="#2c3e50" stroke-width="2" stroke-linejoin="round"/>
+      <!-- Ruptura alcista -->
+      <polyline points="300,150 320,70 335,40 355,20 375,10" fill="none" stroke="#27ae60" stroke-width="2.5"/>
+      <polygon points="375,10 367,20 374,25" fill="#27ae60"/>
+      <!-- Labels caja -->
+      <text x="200" y="64" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#c0392b" font-weight="700">TECHO (Resistencia)</text>
+      <text x="200" y="168" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#27ae60" font-weight="700">PISO (Soporte)</text>
+      <text x="200" y="115" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#2980b9">ACUMULACIÓN</text>
+      <!-- Ruptura label -->
+      <rect x="385" y="8" width="100" height="36" fill="#eafaf1" rx="4" stroke="#27ae60" stroke-width="1"/>
+      <text x="390" y="22" font-family="DM Sans,sans-serif" font-size="9" fill="#27ae60" font-weight="700">⚡ RUPTURA</text>
+      <text x="390" y="36" font-family="DM Sans,sans-serif" font-size="8" fill="#27ae60">Caja = nuevo S</text>
+      <!-- Stop loss -->
+      <line x1="100" y1="155" x2="490" y2="155" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+      <text x="495" y="158" font-family="DM Sans,sans-serif" font-size="8" fill="#c0392b">STOP</text>
+      <line x1="30" y1="190" x2="530" y2="190" stroke="#e8e4dc" stroke-width="1"/>
+    </svg>
+  </div>
+</div>
+
+</div><!-- fin panel teoria -->
+
+<!-- ======= GLOSARIO ======= -->
+<div class="panel" id="panel-glosario">
+  <div class="sec">
+    <div class="sec-title">Glosario — Encuentro 2</div>
+    <p class="sec-intro">35 términos. Las etiquetas indican el tipo de señal. Buscá cualquier término al instante.</p>
+    <div class="glos-search-wrap">
+      <span class="glos-ico">🔍</span>
+      <input type="text" class="glos-search" id="glosSearch" placeholder="Buscar un término..."/>
+    </div>
+    <div class="glos-grid" id="glosGrid">
+      <!-- SOPORTES Y RESISTENCIAS -->
+      <div class="glos-item"><div class="glos-term">Soporte</div><div class="glos-def">Nivel donde la demanda supera la oferta y el precio rebota hacia arriba. Zona de compra. Los compradores superan a los vendedores.</div></div>
+      <div class="glos-item"><div class="glos-term">Resistencia</div><div class="glos-def">Nivel donde la oferta supera la demanda y el precio frena o retrocede. Zona de toma de ganancia. Los vendedores superan a los compradores.</div></div>
+      <div class="glos-item"><div class="glos-term">Neckline (línea de escote)</div><div class="glos-def">Línea clave en figuras como el HCH o el doble techo/piso que, al ser rota, confirma la figura y genera la señal de entrada.</div></div>
+      <div class="glos-item"><div class="glos-term">Throwback</div><div class="glos-def">Movimiento del precio que, tras romper una resistencia, vuelve a testear ese nivel (ahora soporte) antes de continuar subiendo. Oportunidad de entrada.</div></div>
+      <div class="glos-item"><div class="glos-term">Zona de soporte/resistencia</div><div class="glos-def">Rango de precios (no un nivel exacto) donde el precio tiende a reaccionar. Más preciso que hablar de un número exacto.</div></div>
+      <div class="glos-item"><div class="glos-term">Cambio de rol</div><div class="glos-def">Fenómeno donde un soporte roto se convierte en resistencia, y una resistencia rota se convierte en soporte.</div></div>
+      <div class="glos-item"><div class="glos-term">Confluencia</div><div class="glos-def">Coincidencia de múltiples factores técnicos en una misma zona: soporte estático + soporte dinámico + media móvil. Hace la zona más significativa.</div></div>
+      <!-- VELAS -->
+      <div class="glos-item"><div class="glos-term">Vela japonesa<span class="glos-badge badge-neutro">NEUTRO</span></div><div class="glos-def">Representación gráfica del precio que muestra apertura, cierre, máximo y mínimo en un período determinado.</div></div>
+      <div class="glos-item"><div class="glos-term">Cuerpo de la vela</div><div class="glos-def">Rectángulo entre la apertura y el cierre. Verde/blanco = alcista (cierre > apertura). Rojo/negro = bajista (cierre < apertura).</div></div>
+      <div class="glos-item"><div class="glos-term">Mecha (sombra)</div><div class="glos-def">Línea que se extiende del cuerpo hacia el máximo o mínimo. Mecha larga = el precio fue rechazado desde ese extremo.</div></div>
+      <div class="glos-item"><div class="glos-term">Marubozu alcista<span class="glos-badge badge-alcista">ALCISTA</span></div><div class="glos-def">Vela verde sin mechas. El precio subió sin retrocesos. Máxima fuerza compradora. Señal de continuación alcista fuerte.</div></div>
+      <div class="glos-item"><div class="glos-term">Marubozu bajista<span class="glos-badge badge-bajista">BAJISTA</span></div><div class="glos-def">Vela roja sin mechas. El precio bajó sin retrocesos. Máxima fuerza vendedora. Señal de continuación bajista fuerte.</div></div>
+      <div class="glos-item"><div class="glos-term">Martillo<span class="glos-badge badge-alcista">ALCISTA</span></div><div class="glos-def">Cuerpo pequeño en la parte superior, mecha larga hacia abajo. En mínimos, señal de reversión alcista: los compradores rechazaron precios bajos.</div></div>
+      <div class="glos-item"><div class="glos-term">Martillo invertido<span class="glos-badge badge-alcista">ALCISTA</span></div><div class="glos-def">Cuerpo pequeño abajo, mecha larga arriba. En mínimos puede señalar reversión alcista. Requiere confirmación en la vela siguiente.</div></div>
+      <div class="glos-item"><div class="glos-term">Estrella fugaz<span class="glos-badge badge-bajista">BAJISTA</span></div><div class="glos-def">Cuerpo pequeño abajo, mecha larga arriba. En máximos, señal de reversión bajista: los vendedores rechazaron precios altos.</div></div>
+      <div class="glos-item"><div class="glos-term">Doji<span class="glos-badge badge-neutro">INDECISIÓN</span></div><div class="glos-def">Apertura y cierre prácticamente iguales. Indica equilibrio entre compradores y vendedores. Puede señalar cambio de tendencia si aparece en zonas clave.</div></div>
+      <div class="glos-item"><div class="glos-term">Envolvente alcista<span class="glos-badge badge-alcista">ALCISTA</span></div><div class="glos-def">Vela verde que cubre completamente el cuerpo de la vela roja anterior. Señal de reversión alcista fuerte, especialmente en soportes.</div></div>
+      <div class="glos-item"><div class="glos-term">Envolvente bajista<span class="glos-badge badge-bajista">BAJISTA</span></div><div class="glos-def">Vela roja que cubre completamente el cuerpo de la vela verde anterior. Señal de reversión bajista fuerte, especialmente en resistencias.</div></div>
+      <div class="glos-item"><div class="glos-term">Harami<span class="glos-badge badge-neutro">INDECISIÓN</span></div><div class="glos-def">Vela pequeña contenida dentro del cuerpo de la vela anterior grande. Indica desaceleración del movimiento previo. Puede preceder un cambio.</div></div>
+      <!-- FIGURAS CONTINUIDAD -->
+      <div class="glos-item"><div class="glos-term">Triángulo simétrico<span class="glos-badge badge-cont">CONTINUIDAD</span></div><div class="glos-def">Dos líneas convergentes (una descendente y una ascendente). Rompe generalmente en la dirección de la tendencia previa con volumen alto.</div></div>
+      <div class="glos-item"><div class="glos-term">Triángulo ascendente<span class="glos-badge badge-alcista">ALCISTA</span></div><div class="glos-def">Resistencia horizontal + soporte ascendente. Los compradores son más agresivos. Ruptura generalmente alcista.</div></div>
+      <div class="glos-item"><div class="glos-term">Triángulo descendente<span class="glos-badge badge-bajista">BAJISTA</span></div><div class="glos-def">Resistencia descendente + soporte horizontal. Los vendedores son más agresivos. Ruptura generalmente bajista.</div></div>
+      <div class="glos-item"><div class="glos-term">Bandera alcista<span class="glos-badge badge-cont">CONTINUIDAD</span></div><div class="glos-def">Canal bajista de corto plazo tras una subida fuerte (mástil). La ruptura alcista retoma la tendencia. Una de las figuras más confiables del AT.</div></div>
+      <div class="glos-item"><div class="glos-term">Bandera bajista<span class="glos-badge badge-cont">CONTINUIDAD</span></div><div class="glos-def">Canal alcista de corto plazo tras una caída fuerte. La ruptura bajista retoma la tendencia descendente.</div></div>
+      <div class="glos-item"><div class="glos-term">Banderín<span class="glos-badge badge-cont">CONTINUIDAD</span></div><div class="glos-def">Similar a la bandera pero la consolidación forma un pequeño triángulo simétrico. Mismo significado que la bandera.</div></div>
+      <div class="glos-item"><div class="glos-term">Cuña alcista (rising wedge)<span class="glos-badge badge-bajista">BAJISTA</span></div><div class="glos-def">El precio sube con máximos y mínimos convergentes hacia arriba. Los compradores pierden fuerza. Señal bajista.</div></div>
+      <div class="glos-item"><div class="glos-term">Cuña bajista (falling wedge)<span class="glos-badge badge-alcista">ALCISTA</span></div><div class="glos-def">El precio cae con máximos y mínimos convergentes hacia abajo. Los vendedores pierden fuerza. Señal alcista.</div></div>
+      <div class="glos-item"><div class="glos-term">Mástil</div><div class="glos-def">Movimiento brusco y fuerte del precio (subida o bajada) que precede a la formación de una bandera o banderín.</div></div>
+      <!-- FIGURAS REVERSIÓN -->
+      <div class="glos-item"><div class="glos-term">Doble techo (M)<span class="glos-badge badge-rev">REVERSIÓN</span></div><div class="glos-def">Dos máximos similares seguidos de ruptura del soporte (neckline). Señal bajista. Se confirma con la ruptura del neckline.</div></div>
+      <div class="glos-item"><div class="glos-term">Doble piso (W)<span class="glos-badge badge-rev">REVERSIÓN</span></div><div class="glos-def">Dos mínimos similares seguidos de ruptura de la resistencia (neckline). Señal alcista. Se confirma con la ruptura del neckline.</div></div>
+      <div class="glos-item"><div class="glos-term">HCH (Hombro-Cabeza-Hombro)<span class="glos-badge badge-rev">REVERSIÓN</span></div><div class="glos-def">Figura con tres máximos: el central (cabeza) más alto que los dos laterales (hombros). Señal bajista muy confiable al romper el neckline.</div></div>
+      <div class="glos-item"><div class="glos-term">HCH invertido<span class="glos-badge badge-rev">REVERSIÓN</span></div><div class="glos-def">Tres mínimos con el central más bajo. Aparece al final de una tendencia bajista. Señal alcista al romper el neckline.</div></div>
+      <div class="glos-item"><div class="glos-term">Triple techo<span class="glos-badge badge-rev">REVERSIÓN</span></div><div class="glos-def">Tres intentos fallidos de superar la misma resistencia. Señal bajista más fuerte que el doble techo.</div></div>
+      <div class="glos-item"><div class="glos-term">Triple piso<span class="glos-badge badge-rev">REVERSIÓN</span></div><div class="glos-def">Tres rebotes en el mismo soporte. Señal alcista muy fuerte que indica gran acumulación en esa zona.</div></div>
+      <div class="glos-item"><div class="glos-term">Caja de puntas (box)<span class="glos-badge badge-cont">HERRAMIENTA</span></div><div class="glos-def">Rango de precio entre el último máximo y mínimo relevante. No es una figura chartista — es una herramienta del trader para delimitar su zona de operación y definir entrada, stop loss y precio objetivo.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======= QUIZ ======= -->
+<div class="panel" id="panel-quiz">
+  <div class="quiz-top">
+    <h3>Quiz de práctica</h3>
+    <p>12 preguntas sobre patrones y figuras. Cada respuesta incluye su explicación.</p>
+    <div class="quiz-stats">
+      <div><div class="stat-n">12</div><div class="stat-l">Preguntas</div></div>
+      <div><div class="stat-n" id="cntAns">0</div><div class="stat-l">Respondidas</div></div>
+      <div><div class="stat-n" id="cntOk">0</div><div class="stat-l">Correctas</div></div>
+    </div>
+  </div>
+  <div id="quizWrap"></div>
+  <div class="quiz-acts">
+    <button class="btn-sub" id="btnSub" type="button">Ver resultado final</button>
+    <button class="btn-rst" id="btnRst" type="button">Reiniciar</button>
+  </div>
+  <div class="result" id="result">
+    <div class="res-score" id="resScore"></div>
+    <div class="res-lbl">Puntaje final</div>
+    <div class="res-bar-w"><div class="res-bar" id="resBar"></div></div>
+    <div class="res-msg" id="resMsg"></div>
+    <div class="res-sub" id="resSub"></div>
+  </div>
+</div>
+
+</div><!-- fin content -->
+
+<!-- FR FOOTER -->
+<div class="fr-footer">
+  <div class="fr-footer-in">
+    <div class="fr-footer-title">Finanzas Razonables</div>
+    <div class="fr-footer-sub">Ideas claras para tomar mejores decisiones con tu dinero. Inversiones, macroeconomía y finanzas personales.</div>
+    <div class="fr-footer-grid">
+      <div class="fr-footer-item">
+        <div class="fr-footer-label">YouTube</div>
+        <div class="fr-footer-val">@FinanzasRazonables</div>
+      </div>
+      <div class="fr-footer-item">
+        <div class="fr-footer-label">Instagram</div>
+        <div class="fr-footer-val">@finanzasrazonables</div>
+      </div>
+      <div class="fr-footer-item">
+        <div class="fr-footer-label">WhatsApp</div>
+        <div class="fr-footer-val">11 3310-5753</div>
+      </div>
+      <div class="fr-footer-item">
+        <div class="fr-footer-label">Web</div>
+        <div class="fr-footer-val">finanzasrazonables.com.ar</div>
+      </div>
+    </div>
+    <div class="fr-footer-copy">Asesor Financiero · finanzasrazonables@gmail.com</div>
+  </div>
+</div>
+
+<script>
+// TABS
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+    this.classList.add('on');
+    document.getElementById('panel-' + this.dataset.tab).classList.add('on');
+    window.scrollTo(0,0);
+  });
+});
+
+// ACCORDION
+document.querySelectorAll('.acc-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const item = this.closest('.acc-item');
+    const body = item.querySelector('.acc-body');
+    const isOpen = item.classList.contains('open');
+    item.classList.toggle('open', !isOpen);
+    body.style.display = isOpen ? 'none' : 'block';
+  });
+});
+document.querySelectorAll('.acc-item').forEach(item => {
+  item.querySelector('.acc-body').style.display = item.classList.contains('open') ? 'block' : 'none';
+});
+
+// PROGRESS
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  if(h > 0) document.getElementById('prog').style.width = (window.scrollY / h * 100) + '%';
+});
+
+// GLOSSARY
+document.getElementById('glosSearch').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.glos-item').forEach(item => {
+    item.classList.toggle('hide', q !== '' && !item.textContent.toLowerCase().includes(q));
+  });
+});
+
+// QUIZ
+const qs = [
+  {q:"¿Qué sucede cuando el precio rompe un soporte con alto volumen?",opts:["El soporte se fortalece","El soporte roto se convierte en resistencia","El precio siempre vuelve al soporte","No tiene ningún significado técnico"],ok:1,fb:"Cuando un soporte se rompe con alto volumen, ese nivel pasa a ser resistencia. Los traders que compraron ahí ahora están en pérdida y esperan que el precio suba para vender (resistencia)."},
+  {q:"Una vela con cuerpo pequeño y mecha larga hacia abajo, apareciendo en un soporte, se llama:",opts:["Estrella fugaz","Doji","Martillo","Marubozu bajista"],ok:2,fb:"El martillo tiene cuerpo pequeño arriba y mecha larga hacia abajo. Cuando aparece en un soporte indica que los compradores rechazaron los precios bajos. Es una señal de posible reversión alcista."},
+  {q:"¿Qué indica un Doji?",opts:["Fuerte presión compradora","Fuerte presión vendedora","Indecisión entre compradores y vendedores","Una ruptura inminente al alza"],ok:2,fb:"El Doji tiene apertura y cierre casi iguales, indicando equilibrio entre compradores y vendedores. Por sí solo no es señal suficiente, pero en zonas clave puede anticipar un cambio de tendencia."},
+  {q:"El throwback es:",opts:["Una ruptura bajista violenta","El precio que vuelve a testear el nivel roto antes de continuar","Una figura de reversión","El segundo toque en un doble techo"],ok:1,fb:"El throwback ocurre cuando el precio rompe una resistencia, sube un poco y vuelve a testear ese nivel (ahora soporte) antes de continuar subiendo. Es una oportunidad de entrada muy buscada."},
+  {q:"Un triángulo ascendente se forma con:",opts:["Dos líneas descendentes que convergen","Resistencia horizontal y soporte ascendente","Soporte horizontal y resistencia descendente","Dos líneas ascendentes paralelas"],ok:1,fb:"El triángulo ascendente tiene una resistencia horizontal (el precio no puede superarla) y un soporte ascendente (los mínimos suben). Los compradores son más agresivos. La ruptura suele ser alcista."},
+  {q:"Una bandera alcista aparece después de:",opts:["Una caída fuerte del precio","Una zona lateral prolongada","Una subida fuerte y brusca (mástil)","Un doble techo"],ok:2,fb:"La bandera alcista aparece después de un movimiento rápido al alza (mástil). El precio consolida en un pequeño canal bajista y luego rompe al alza retomando la tendencia original."},
+  {q:"¿Cuál es la principal diferencia entre una cuña alcista y una bandera alcista?",opts:["La cuña alcista es señal bajista; la bandera es señal alcista","Son idénticas en su significado","La bandera aparece en máximos; la cuña en mínimos","La cuña tiene mayor volumen"],ok:0,fb:"La cuña alcista (rising wedge) es señal BAJISTA: el precio sube pero pierde fuerza, convergiendo hacia arriba. La bandera alcista es señal de CONTINUACIÓN ALCISTA: consolida brevemente antes de continuar subiendo."},
+  {q:"¿Cuándo se confirma un Doble Techo?",opts:["Cuando el precio toca el mismo máximo por segunda vez","Cuando rompe el neckline (soporte entre los dos techos)","Cuando el volumen aumenta en el segundo techo","Cuando aparece un doji en el segundo techo"],ok:1,fb:"El doble techo se confirma únicamente cuando el precio rompe el neckline, que es el soporte formado entre los dos máximos. Sin esa ruptura, el precio podría volver a subir y la figura quedaría invalidada."},
+  {q:"En un HCH (Hombro-Cabeza-Hombro), ¿cuál es el elemento más alto?",opts:["El hombro izquierdo","El hombro derecho","La cabeza","El neckline"],ok:2,fb:"En el HCH, la cabeza es el máximo central y el más alto de los tres. Los hombros son los máximos laterales, aproximadamente del mismo nivel entre sí pero más bajos que la cabeza."},
+  {q:"La caja de puntas es útil principalmente para:",opts:["Calcular el volumen de una operación","Definir zonas de entrada, stop loss y precio objetivo","Identificar tendencias de largo plazo","Medir la velocidad del precio"],ok:1,fb:"La caja de puntas delimita la zona de acumulación del precio. El stop loss se coloca fuera de la caja, la entrada se da en la ruptura, y el objetivo se proyecta usando la altura de la caja desde el punto de ruptura."},
+  {q:"Una vela envolvente bajista aparece en una resistencia. ¿Qué indica?",opts:["Señal de compra fuerte","El precio va a continuar subiendo","Posible reversión bajista: los vendedores tomaron el control","La resistencia fue rota"],ok:2,fb:"La vela envolvente bajista (vela roja que cubre completamente la vela verde anterior) en una resistencia indica que los vendedores tomaron el control y superaron a los compradores. Es una señal de posible reversión bajista."},
+  {q:"¿Qué figura de reversión tiene tres máximos, siendo el central el más alto?",opts:["Triple techo","Doble techo","HCH (Hombro-Cabeza-Hombro)","Cuña alcista"],ok:2,fb:"El HCH tiene tres máximos: hombro izquierdo, cabeza (el más alto) y hombro derecho (similar al izquierdo). Es la figura de reversión bajista más famosa y confiable del análisis técnico."}
+];
+
+let answers = new Array(qs.length).fill(null);
+const letters = ['A','B','C','D'];
+
+function buildQuiz() {
+  const wrap = document.getElementById('quizWrap');
+  wrap.innerHTML = '';
+  qs.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.innerHTML = `
+      <div class="q-num">Pregunta ${i+1} de ${qs.length}</div>
+      <div class="q-txt">${q.q}</div>
+      <div class="opts" id="opts-${i}">
+        ${q.opts.map((o,j) => `<button class="opt-btn" type="button" data-q="${i}" data-o="${j}"><span class="opt-l">${letters[j]}</span>${o}</button>`).join('')}
+      </div>
+      <div class="fb" id="fb-${i}"></div>`;
+    wrap.appendChild(card);
+  });
+  document.querySelectorAll('.opt-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const qi = parseInt(this.dataset.q);
+      const oi = parseInt(this.dataset.o);
+      if (answers[qi] !== null) return;
+      answers[qi] = oi;
+      const btns = document.querySelectorAll(`#opts-${qi} .opt-btn`);
+      const isOk = oi === qs[qi].ok;
+      btns.forEach((b, idx) => {
+        b.disabled = true;
+        if (idx === oi && isOk) b.classList.add('ok');
+        else if (idx === oi) b.classList.add('no');
+        else if (idx === qs[qi].ok) b.classList.add('show-ok');
+      });
+      const fb = document.getElementById('fb-' + qi);
+      fb.textContent = (isOk ? '✅ Correcto! ' : '❌ Incorrecto. ') + qs[qi].fb;
+      fb.className = 'fb on ' + (isOk ? 'ok' : 'no');
+      document.getElementById('cntAns').textContent = answers.filter(a => a !== null).length;
+      document.getElementById('cntOk').textContent  = answers.filter((a,i) => a === qs[i].ok).length;
+    });
+  });
+}
+
+document.getElementById('btnSub').addEventListener('click', function() {
+  const ok  = answers.filter((a,i) => a === qs[i].ok).length;
+  const tot = qs.length;
+  const pct = Math.round(ok / tot * 100);
+  const panel = document.getElementById('result');
+  panel.classList.add('on');
+  document.getElementById('resScore').textContent = ok + '/' + tot;
+  setTimeout(() => { document.getElementById('resBar').style.width = pct + '%'; }, 100);
+  const m = pct>=90 ? ['¡Excelente! Dominás los patrones.','Estás listo para el Encuentro 3.'] :
+            pct>=70 ? ['Muy bien, vas por buen camino.','Repasá las preguntas que fallaste.'] :
+            pct>=50 ? ['Bien, pero hay figuras para repasar.','Volvé a la teoría y los gráficos.'] :
+                      ['Necesitás repasar los patrones.','Volvé a la teoría antes de continuar.'];
+  document.getElementById('resMsg').textContent = m[0];
+  document.getElementById('resSub').textContent = m[1];
+  panel.scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+document.getElementById('btnRst').addEventListener('click', function() {
+  answers = new Array(qs.length).fill(null);
+  document.getElementById('cntAns').textContent = 0;
+  document.getElementById('cntOk').textContent  = 0;
+  document.getElementById('result').classList.remove('on');
+  document.getElementById('resBar').style.width = '0%';
+  buildQuiz();
+});
+
+buildQuiz();
+</script>
+</body>
+</html>
